@@ -12,12 +12,13 @@ public class LoginDao {
 String email;
  String password;
  String role;	
-	
+	int id;
  
  
  
- public LoginDao(String email, String password,String role) {
+ public LoginDao(int id,String email, String password,String role) {
 	super();
+	this.id=id;
 	this.email = email;
 	this.password = password;
 	this.role=role;
@@ -56,37 +57,42 @@ String email;
 		
 		conn.connect();
 		retv=conn.retrieve();
-		System.out.println("listing "+retv);
-		System.out.println("printing list ");
-		
+		//System.out.println("listing "+retv);
+		//System.out.println("printing list ");
+		int counter=0;
 		for(LoginDao obj:retv)
 		{
 			
-			System.out.println("printing items "+obj);
+			//System.out.println("printing items "+obj);
 			
 			String em=obj.email;
 			String pass=obj.password;
 			role=obj.role;
-			System.out.println("em "+em+" "+pass+" "+email+" "+password);
-			if(email.equals(em) || password.equals(pass))
+			//System.out.println("em "+em+" "+pass+" "+email+" "+password);
+			if(email.equals(em) && password.equals(pass))
 			{
 				
 			if(role.equals("admin"))
 			{
-				System.out.println("hi i am admin");
+				//System.out.println("hi i am admin");
 				Admin adminobj=new Admin();
-				adminobj.adminControl();
+				adminobj.adminControl(obj.email);
+				counter++;
 			}
 			else {
 				System.out.println("hi i am user");
 				User userobj=new User();
-				userobj.userControl();
+				userobj.userControl(obj.email,obj.id);
+				counter++;
 			}
 		}
-			else {
-				System.out.println("invalid email id or password");
-			}
 			
+			
+		}
+		
+		if(counter==0)
+		{
+			System.out.println("invalid email id or password");
 		}
 		
 	}

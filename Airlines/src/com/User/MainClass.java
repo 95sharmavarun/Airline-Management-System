@@ -14,9 +14,16 @@ public class MainClass {
 	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 
-		System.out.println("press 1 to register ");
-		System.out.println("press 2 to login ");
+		System.out.println("********************************************************");
+		System.out.println("\t \t WELCOME TO FLIGHTWAYS");
+		System.out.println("********************************************************");
 		
+		
+		int opt=1;
+		do {
+		System.out.println("-> press 1 to register ");
+		System.out.println("-> press 2 to login ");
+		System.out.println("-> press 0 to exit ");
 		Scanner scan=new Scanner(System.in);
 		
 		int choose=scan.nextInt();
@@ -24,18 +31,22 @@ public class MainClass {
 		if(choose==1)
 		{
 			RegisterDao reg=new RegisterDao();
-			reg.register();
+			reg.registerUser();
 		}
 		else if(choose==2)
 		{
 			LoginDao log=new LoginDao();
 			log.login();
 		}
+		else if(choose==0)
+		{
+			System.exit(0);
+		}
 		else {
 			System.out.println("choose valid option");
 		}
 		
-		
+		}while(opt!=0);
 		
 		
 		

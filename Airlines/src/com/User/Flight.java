@@ -9,15 +9,15 @@ public class Flight {
 
 	String fname,source,destination,arrivaltime,destinationtime;
 	double price;
-
+	int fid,seatsleft;
 	Flight()
 	{
 		
 	}
 	
 	
-	public Flight(String fname, String source, String destination, double price, String arrivaltime,
-			String destinationtime) {
+	public Flight(int fid,String fname, String source, String destination, double price, String arrivaltime,
+			String destinationtime,int seatsleft) {
 		super();
 		this.fname = fname;
 		this.source = source;
@@ -25,9 +25,33 @@ public class Flight {
 		this.price = price;
 		this.arrivaltime = arrivaltime;
 		this.destinationtime = destinationtime;
+		this.fid=fid;
+		this.seatsleft=seatsleft;
 	}
 
 	
+	
+	
+	public int getSeatsleft() {
+		return seatsleft;
+	}
+
+
+	public void setSeatsleft(int seatsleft) {
+		this.seatsleft = seatsleft;
+	}
+
+
+	public int getFid() {
+		return fid;
+	}
+
+
+	public void setFid(int fid) {
+		this.fid = fid;
+	}
+
+
 	public String getFname() {
 		return fname;
 	}
@@ -78,8 +102,8 @@ public class Flight {
 
 	@Override
 	public String toString() {
-		return "Flight [fname=" + fname + ", source=" + source + ", destination=" + destination + ", price=" + price
-				+ ", arrivaltime=" + arrivaltime + ", destinationtime=" + destinationtime + "]";
+		return "\t "+fid+"\t "+fname +"\t \t   "+source+ "\t   " + destination + "\t \t " + price
+				+ "\t \t \t" + arrivaltime + "\t \t   " + destinationtime + "\t \t   "+seatsleft ;
 	}
 	
 	public void newFlight() throws SQLException
@@ -97,8 +121,9 @@ public class Flight {
 		arrivaltime=x.next();
 		System.out.println("enter destination time");
 		destinationtime=x.next();
-		
-		Flight obj=new Flight(fname,source,destination,price,arrivaltime,destinationtime);
+		System.out.println("enter number of seats in a flight: ");
+		seatsleft=x.nextInt();
+		Flight obj=new Flight(fid,fname,source,destination,price,arrivaltime,destinationtime,seatsleft);
 		
 		CreateConnect conn=new CreateConnect();
 		conn.connect();

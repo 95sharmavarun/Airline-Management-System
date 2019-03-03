@@ -16,13 +16,13 @@ public class CreateConnect {
 	PreparedStatement pstmt;
 	ResultSet rs;
 	ArrayList<LoginDao>retv=new ArrayList<>();
-	
+	ArrayList<Flight>flightsearch=new ArrayList<>();
 	
 	public void connect()
 	{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			 conn=DriverManager.getConnection("jdbc:mysql://localhost:3307/airlines","root","varun");
+			 conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/airlines","root","varun");
 		}
 		catch(Exception e)
 		{
@@ -31,15 +31,34 @@ public class CreateConnect {
 	}
 	
 	
+	
+	
+	public void registerNewUser(RegisterDao newUser) throws SQLException
+	{
+		pstmt=conn.prepareStatement("insert into login(email,password) values (?,?)");
+		pstmt.setString(1,newUser.getEmail() );
+		pstmt.setString(2, newUser.getPassword());
+		int i=pstmt.executeUpdate();
+		if(i>0)
+		{
+			System.out.println("new User added successfully");
+		}
+		else {
+			System.out.println("new User not added successfully");
+		}
+	}
+	
+	
+	
 	public List<LoginDao> retrieve() throws SQLException
 	{
 		
-		 pstmt=conn.prepareStatement("select email,password,role from Login");
+		 pstmt=conn.prepareStatement("select id,email,password,role from Login");
 		rs=pstmt.executeQuery();
 		while(rs.next())
 		{
 			
-			retv.add(new LoginDao(rs.getString(1),rs.getString(2),rs.getString(3)));
+			retv.add(new LoginDao(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4)));
 		}
 		return retv;
 	}
@@ -48,14 +67,14 @@ public class CreateConnect {
 	public void addNewFlight(Flight obj) throws SQLException
 	{
 		
-		pstmt=conn.prepareStatement("insert into domesticflight(fname,source,destination,price,arrivaltime,destinationtime) values (?,?,?,?,?,?)");
+		pstmt=conn.prepareStatement("insert into domesticflight(fname,source,destination,price,arrivaltime,destinationtime,seatsleft) values (?,?,?,?,?,?,?)");
 		pstmt.setString(1,obj.getFname() );
 		pstmt.setString(2, obj.getSource());
 		pstmt.setString(3, obj.getDestination());
 		pstmt.setDouble(4, obj.getPrice());
 		pstmt.setString(5, obj.getArrivaltime());
 		pstmt.setString(6, obj.getDestinationtime());
-		
+		pstmt.setInt(7, obj.getSeatsleft());
 		int i=pstmt.executeUpdate();
 		if(i>0)
 		{
@@ -71,7 +90,7 @@ public class CreateConnect {
 	
 public void deleteFlight(int flightid) throws SQLException
 {
-	System.out.println("trying to delete "+flightid);
+	//System.out.println("trying to delete "+flightid);
 	pstmt=conn.prepareStatement("delete from domesticflight where fid= ?");
 	pstmt.setInt(1, flightid);
 	
@@ -85,7 +104,77 @@ public void deleteFlight(int flightid) throws SQLException
 	}
 	
 }
+
+
+
+public List<Flight> searchFlight(String source,String destination) throws SQLException
+{
+	flightsearch.clear();
+	System.out.println("searching...");
+	 pstmt=conn.prepareStatement("select fid,fname,source,destination,price,arrivaltime,destinationtime,seatsleft from domesticflight where source=? and destination=?");
+	 pstmt.setString(1, source);
+	 pstmt.setString(2, destination);
+	 rs=pstmt.executeQuery();
+		while(rs.next())
+		{
+			
+			flightsearch.add(new Flight(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getDouble(5),rs.getString(6),rs.getString(7),rs.getInt(8)));
+		}
+		return flightsearch;
 	
+}
+
+
+
+public void bookFlight(int fid,int userid,double totalprice,int seats) throws SQLException
+{
+	pstmt=conn.prepareStatement("insert into booking(fid,id,totalprice,bookedseats) values (?,?,?,?)");
+	pstmt.setInt(1,fid );
+	pstmt.setInt(2, userid);
+	pstmt.setDouble(3,totalprice);
+	pstmt.setInt(4, seats);
+	
+	int i=pstmt.executeUpdate();
+	if(i>0)
+	{
+		System.out.println(" flight booking successfull");
+	}
+	else {
+		System.out.println("flight booking not successfull...Please try again..!!");
+	}
+}
+
+public void updateFlight(int flightid,int totalseats) throws SQLException
+{
+	pstmt=conn.prepareStatement("update domesticflight set seatsleft= ? where fid= ?");
+	pstmt.setInt(1, totalseats);
+	pstmt.setInt(2, flightid);
+	int i=pstmt.executeUpdate();
+	if(i>0)
+	{
+		System.out.println(" flight updated successfully");
+	}
+	else {
+		System.out.println(" flight not updated successfully");
+	}
+}
+
+public void viewBookedFlights() throws SQLException
+{
+	 pstmt=conn.prepareStatement("select * from booking ");
+	
+	 rs=pstmt.executeQuery();
+	 System.out.println("-------------------------------------------------------------------------");
+	 System.out.println("bookid"+" "+"Flight id"+" "+"user id"+" "+"total price"+" "+"booked seats");
+	
+	 while(rs.next())
+		{
+		 	System.out.println("------------------------------------------------------------------");
+			System.out.println("  "+rs.getInt(1)+"\t "+rs.getInt(2)+"\t  "+rs.getInt(3)+"\t "+rs.getDouble(4)+"\t "+rs.getInt(5));
+			System.out.println("------------------------------------------------------------------");
+		}
+	
+}
 	
 //	public static void main(String...strings ) throws SQLException
 //	{

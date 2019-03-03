@@ -3,17 +3,18 @@ package com.User;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import com.Dao.LoginDao;
-import com.Dao.RegisterDao;
+import com.Dao.CreateConnect;
 
 public class Admin {
 	Scanner scan=new Scanner(System.in);
-	public void adminControl() throws SQLException
+	public void adminControl(String email) throws SQLException
 	{
 		
-		
-		System.out.println("press 1 to add a new flight");
-		System.out.println("press 2 to delete a flight");
+		System.out.println("*************** WELCOME "+email+" ********************");
+		System.out.println("-> press 1 to add a new flight");
+		System.out.println("-> press 2 to delete a flight");
+		System.out.println("-> press 3 to view all flights");
+		System.out.println("-> press 4 to view booked flights");
 		
 		int choose=scan.nextInt();
 
@@ -26,6 +27,10 @@ public class Admin {
 		{
 			deleteFlights();
 			
+		}
+		else if(choose==4)
+		{
+			bookedFlights();
 		}
 		else {
 			System.out.println("choose valid options");
@@ -50,6 +55,14 @@ public class Admin {
 		Flight flightobj=new Flight();
 		flightobj.deleteFlight(fid);
 		
+	}
+	
+	
+	public void bookedFlights() throws SQLException
+	{
+		CreateConnect obj=new CreateConnect();
+		obj.connect();
+		obj.viewBookedFlights();
 	}
 	
 	

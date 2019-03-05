@@ -1,0 +1,35 @@
+body
+{
+background-image:url("pic7.jpg");	
+background-size:cover;
+background-repeat:no-repeat;
+}
+
+.container{
+color: black;
+text-align:center;
+}
+#select
+{
+	width:200px;
+	height:30px;
+	
+}
+#dte
+{
+    width:200px;
+	height:30px;	
+}
+.btn
+{
+	width:100px;
+}
+.btn2{
+	margin-left:2px;
+	
+}
+
+#lbl
+{
+color:orange;	
+}

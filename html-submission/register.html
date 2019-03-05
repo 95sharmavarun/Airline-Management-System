@@ -1,0 +1,552 @@
+<!doctype html>
+
+<html lang="en">
+
+  <head>
+
+    <!-- Required meta tags -->
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+
+    <!-- Bootstrap CSS -->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<script>  
+function validateform(){  
+	var name=document.myform.name.value;  
+	var password=document.myform.password.value;  
+	  
+	if (name==null || name==""){  
+	  alert("Name can't be blank");  
+	  return false;  
+	}else if(password.length<6){  
+	  alert("Password must be at least 6 characters long.");  
+	  return false;  }
+}
+
+</script>
+
+    <title>Hello, world!</title>
+
+    
+
+<script>
+function validateemail()  
+
+{  
+
+var x=document.myform.email.value;  
+var y=document.myform.name.value;  
+var z=document.myform.pass.value;  
+var a=document.myform.conpass.value;  
+
+var atposition=x.indexOf("@");  
+
+var dotposition=x.lastIndexOf(".");  
+
+if (atposition<1 || dotposition<atposition+2 || dotposition+2>=x.length){  
+
+  alert("Please enter a valid e-mail address \n atpostion:"+atposition+"\n dotposition:"+dotposition);  
+
+  return false;  
+
+  }  
+  
+   if(!(y.match(/^[a-zA-Z]{2,}$/))) {
+        alert("Invalid First Name");
+        myform.y.focus();
+           
+
+    }
+    
+      if(!(myform.z.value.match(/^.\w{5,}$/))){
+        alert("Invalid Password");
+        myform.z.focus();
+      
+
+    }
+    
+    if(!(myform.a.value == myform.z.value)){
+        alert("Password must be the same");
+        myform.conpass.focus();
+      
+
+    }
+    
+   
+}
+
+</script>
+   
+<style>
+/*.navbar{background:#F97300}*/
+
+.navbar:not(.top-nav-collapse) {
+
+  background: transparent !important;
+
+}
+
+.container-fluid {
+
+
+
+    background-image: ("img/city.jpg") no-repeat center center fixed;
+
+
+
+  width: 100%;
+
+
+
+  padding-right: 150px;
+
+
+
+  padding-left: 150px;
+
+
+
+  margin-right: auto;
+
+
+
+  margin-left: auto;
+
+
+
+}
+
+
+
+.form-container{ padding: 10 px 10px; margin-top:20vh;  margin-left:50px; margin-left: 100px;
+
+
+
+    }
+
+
+
+body, html {
+
+  height: 100%;
+
+}
+
+.row1{
+  margin:0 35em;
+}
+
+
+h1{
+  margin:0 11em;
+}
+
+
+
+
+
+
+</style>
+
+    
+
+    
+
+    
+
+  </head>
+
+  <body>
+
+   
+
+  		<div class="row">
+
+    <div class="col-md-12">
+
+
+<div class="bg">
+
+<form class = 'card p-1 text-white bg-dark style="width: 18rem;"'>
+
+  <div class="container-fluid "  >
+
+
+
+          
+
+
+
+             <div class="row">
+
+
+
+                <div class="col   ">
+
+
+
+                   <form class="form-container  p-3 mb-5 bg-white rounded " name="myform"   id="contact-form" method="post" action="contact.php" role="form" >
+
+
+
+                   <h1>Please Register</h1>
+
+                   <br><br>
+
+                    <div class="messages"></div>
+
+
+
+                
+
+
+
+                    <div class="controls">
+
+
+
+                
+
+
+
+                        <div class="row">
+
+
+
+                            <div class="col   ">
+
+
+
+
+
+
+
+                                <div class="form-group" onsubmit="return validateform()">
+
+
+
+                                    <label for="form_name">Firstname *</label>
+
+
+
+                                    <input id="form_name" type="text"  name="name" class="form-control" placeholder="Please enter your firstname *" required="required" data-error="Firstname is required.">
+
+
+
+                                    <div class="help-block with-errors"></div>
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+
+                            <div class="col   ">
+
+
+
+                                <div class="form-group">
+
+
+
+                                    <label for="form_lastname">Lastname *</label>
+
+
+
+                                    <input id="form_lastname" type="text" name="surname" class="form-control" placeholder="Please enter your lastname *" required="required" data-error="Lastname is required.">
+
+
+
+                                    <div class="help-block with-errors"></div>
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+                        <div class="row">
+
+
+
+                                <div class="col   ">
+
+
+
+                                    <div class="form-group">
+
+
+
+                                        <label for="pass">Password *</label>
+
+
+
+                                        <input id="pass" type="password"  name="pass" class="form-control" placeholder="Please enter your password *" required="required" data-error="Password required.">
+
+
+
+                                        <div class="help-block with-errors"></div>
+
+
+
+                                    </div>
+
+
+
+                                </div>
+
+
+
+                                <div class="col   ">
+
+
+
+                                    <div class="form-group">
+
+
+
+                                        <label for="passcn">Confirm Password *</label>
+
+
+
+                                        <input id="passcn" type="password" name="conpass" class="form-control" placeholder="Comfirn Password *" required="required" data-error="Comfirn Password required.">
+
+
+
+                                        <div class="help-block with-errors"></div>
+
+
+
+                                    </div>
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+
+                        <div class="row">
+
+
+
+                                <div class="col   ">
+
+
+
+                                    <div class="form-group">
+
+
+
+                                        <label for="address1">Address 1 *</label>
+
+
+
+                                        <input id="address1" type="text" name="address1" class="form-control" placeholder="Address Line 1" required="required" data-error="Can't Leave Empty">
+
+
+
+                                        <div class="help-block with-errors"></div>
+
+
+
+                                    </div>
+
+
+
+                                </div>
+
+
+
+                                <div class="col   ">
+
+
+
+                                    <div class="form-group">
+
+
+
+                                        <label for="address2">Address 2 *</label>
+
+
+
+                                        <input id="address2" type="text" name="address2" class="form-control" placeholder="Address Line 1" required="required" data-error="Can't Leave Empty">
+
+
+
+                                        <div class="help-block with-errors"></div>
+
+
+
+                                    </div>
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+
+                             <div class="row">
+
+
+
+                               <div class="col   ">
+
+
+
+                                 <div class="form-group">
+
+
+
+                                    <label for="form_email">Email *</label>
+
+
+
+                                    <input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email *" required="required" data-error="Valid email is required.">
+
+
+
+                                    <div class="help-block with-errors"></div>
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+
+                          <div class="col   ">
+
+
+
+                                <div class="form-group">
+
+
+
+                                    <label for="form_need">gender</label>
+
+
+
+                                    <select id="form_need" name="need" class="form-control" required="required" data-error="Please specify your need.">
+
+
+
+                                        <option value=""></option>
+
+
+
+                                        <option value="Request quotation">Male</option>
+
+
+
+                                        <option value="Request order status">Female</option>
+
+
+
+                                        <option value="Request copy of an invoice">Don't Want to Dislose</option>
+
+
+
+                                        <option value="Other">Other</option>
+
+
+
+                                    </select>
+
+
+
+                                    <div class="help-block with-errors"></div>
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+                        <div class="row1 ">
+
+
+
+                            <div class="  ">
+
+
+
+                                <input type="submit" class="btn btn-success " value="Register" onclick="validateemail();">
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                 </div>
+
+                </div>
+
+                   </form>
+
+             </div>
+
+        </div>
+
+ </form>
+
+</div>
+
+
+  
+
+
+
+
+
+    <!-- Optional JavaScript -->
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  </body>
+
+</html>

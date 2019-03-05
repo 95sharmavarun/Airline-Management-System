@@ -101,6 +101,7 @@ public class User {
 		
 		System.out.println("-> press 1 to search flight");
 		System.out.println("-> press 2 to book a flight");
+		System.out.println("-> press 3 to cancel your booked flight");
 		System.out.println("-> press 0 to exit");
 		
 		int choose=scan.nextInt();
@@ -115,6 +116,12 @@ public class User {
 			bookFlight(email,id);
 			
 		}
+		
+		else if(choose==3)
+		{
+			cancelFlight(email);
+		}
+		
 		else if(choose==0)
 		{
 			break;
@@ -129,18 +136,20 @@ public class User {
 	
 	
 List<Flight>flightsearch=new ArrayList<>();
-	public void search() throws SQLException
+List<Flight>Cancelflightsearch=new ArrayList<>();
+	public int search() throws SQLException
 	{
 		System.out.println("enter your source: ");
 		String source=scan.next();
 		System.out.println("enter your destination: ");
 		String destination=scan.next();
-		
+		int c=0;
 		
 		conn.connect();
 		flightsearch=conn.searchFlight(source,destination);
 		
 		if(flightsearch.size()>0) {
+			c++;
 			System.out.println("your flights are: ");
 			System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 			System.out.println("Flight id\t| Flight Name |"+" "+"\t| Source |"+"\t "+"| Destination |"+"\t"+"| Price |"+"\t "+"| Arrival Time |"+"\t "+"| Destination Time |"+"\t "+"| Seats Left |");
@@ -153,10 +162,11 @@ List<Flight>flightsearch=new ArrayList<>();
 		}
 		else {
 			System.out.println("sorry there is no flight from your source to your destination...!!");
+			c=0;
 		}
 		
 		
-		
+		return c;
 	}
 	
 	
@@ -165,10 +175,14 @@ List<Flight>flightsearch=new ArrayList<>();
 	public void bookFlight(String email,int id) throws SQLException
 	{
 		double totalprice=0;
-		search();
+		int c=search();
+		if(c==0)
+		{
+			userControl( email, id);
+		}
 	//	System.out.println("********** "+flightsearch.get(0).price);
 		//flightsearch.get(0);
-		
+		else {
 		int userid=id;
 		
 		System.out.println("enter number of seats you want to book: ");
@@ -206,13 +220,81 @@ List<Flight>flightsearch=new ArrayList<>();
 			
 		}
 		
-		
+		}
 		
 		
 		
 		//double totalPrice=seats * flightsearch.get(4);
 		
 		
+	}
+	
+	
+	
+	public void cancelFlight(String email) throws SQLException
+	{
+		/* System.out.println("-> press 1 to cance");*/
+		int t=0,seats=0;
+		int totalseats=0;
+		int fid=0;
+		do {
+		System.out.println("Do you really want to cancel your booking ?");
+		System.out.println("-> press 1 to proceed ");
+		System.out.println("-> press 0 to exit");
+		int opt=scan.nextInt();
+		int count=0;
+		if(opt==1)
+		{
+			conn.connect();
+			seats=conn.fetch(email);
+			Cancelflightsearch=conn.showAllFlights();
+//			id=conn.idfetch();
+			//conn.updateFlight(fid,totalseats);
+			if(seats>0) {
+				
+				System.out.println("enter your flight name: ");
+					String flightName=scan.next();
+				
+				for(int i=0;i<Cancelflightsearch.size();i++)
+				{
+					if(Cancelflightsearch.get(i).fname.equals(flightName))
+					{
+						
+						totalseats=Cancelflightsearch.get(i).seatsleft;
+						fid=Cancelflightsearch.get(i).fid;
+						totalseats+=seats;
+						count++;
+					}
+				}
+				if(count==0)
+				{
+					System.out.println("No such flight with Flight Name "+flightName);
+				}
+				else {
+
+					conn.updateFlight(fid,totalseats);
+				conn.cancellation(email);	
+				}
+				
+				
+				
+				
+			}
+			else {
+				System.out.println("no seats in booking");
+			}
+			
+		}
+		else if(opt==0)
+		{
+			t=1;
+		}
+		else {
+			System.out.println("please choose valid option ");
+		}
+		
+		
+		}while(t!=0);
 	}
 	
 	

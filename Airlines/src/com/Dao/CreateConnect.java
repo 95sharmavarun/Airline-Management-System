@@ -17,12 +17,12 @@ public class CreateConnect {
 	ResultSet rs;
 	ArrayList<LoginDao>retv=new ArrayList<>();
 	ArrayList<Flight>flightsearch=new ArrayList<>();
-	
+	ArrayList<Flight>CancelFlightsearch=new ArrayList<>();
 	public void connect()
 	{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			 conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/airlines","root","varun");
+			 conn=DriverManager.getConnection("jdbc:mysql://localhost:3307/airlines","root","varun");
 		}
 		catch(Exception e)
 		{
@@ -35,9 +35,12 @@ public class CreateConnect {
 	
 	public void registerNewUser(RegisterDao newUser) throws SQLException
 	{
-		pstmt=conn.prepareStatement("insert into login(email,password) values (?,?)");
-		pstmt.setString(1,newUser.getEmail() );
-		pstmt.setString(2, newUser.getPassword());
+		pstmt=conn.prepareStatement("insert into login(name,email,phone,password,address) values (?,?,?,?,?)");
+		pstmt.setString(1,newUser.getUserName());
+		pstmt.setString(2, newUser.getEmail());
+		pstmt.setString(3,newUser.getUserPhone());
+		pstmt.setString(4, newUser.getPassword());
+		pstmt.setString(5, newUser.getUserAddress());
 		int i=pstmt.executeUpdate();
 		if(i>0)
 		{
@@ -175,7 +178,67 @@ public void viewBookedFlights() throws SQLException
 		}
 	
 }
+
+
+public void cancellation(String email) throws SQLException
+{
+	pstmt=conn.prepareStatement("delete from booking where id=(select id from login where email=?)");
+	pstmt.setString(1, email);
+	int i=pstmt.executeUpdate();
+	if(i>0)
+	{
+		System.out.println(" booking cancelled successfully");
+	}
+	else {
+		System.out.println(" booking not cancelled successfully");
+	}
 	
+}
+
+public int fetch(String email) throws SQLException
+{
+	pstmt=conn.prepareStatement("select bookedseats from booking where id=(select id from login where email=?)");
+	pstmt.setString(1, email);
+	rs=pstmt.executeQuery();
+	int seats=0;
+	while(rs.next())
+	{
+		seats=rs.getInt(1);
+	}
+	
+	return seats;
+}
+
+
+public List<Flight> showAllFlights() throws SQLException
+{
+	CancelFlightsearch.clear();
+	 pstmt=conn.prepareStatement("select fid,fname,source,destination,price,arrivaltime,destinationtime,seatsleft from domesticflight");
+	 rs=pstmt.executeQuery();
+		while(rs.next())
+		{
+			
+			CancelFlightsearch.add(new Flight(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getDouble(5),rs.getString(6),rs.getString(7),rs.getInt(8)));
+		}
+		return CancelFlightsearch;
+	
+}
+
+
+	
+//	public void idFetch() 
+//	{ 
+//		pstmt=conn.
+//	 prepareStatement("select fid from domesticflight where fid=(select id from login where email=?)"); 
+//		//pstmt.setString(1, email); 
+//		rs=pstmt.executeQuery(); 
+//		int seats=0;
+//	 while(rs.next()) { seats=rs.getInt(1); }
+//	 
+//	 return seats; 
+//	 }
+//	 
+//		
 //	public static void main(String...strings ) throws SQLException
 //	{
 //		CreateConnect obj=new CreateConnect();

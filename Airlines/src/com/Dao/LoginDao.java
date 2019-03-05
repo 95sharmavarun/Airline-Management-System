@@ -1,5 +1,6 @@
 package com.Dao;
 
+import java.io.Console;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ String email;
 	public String toString() {
 		return "LoginDao [email=" + email + ", password=" + password + "]";
 	}
-
+	Console console = System.console();
 
 	public void login() throws SQLException
 	{
@@ -49,6 +50,11 @@ String email;
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Enter your email id: ");
 		email=sc.next();
+		//console.readPassword()
+		//if(console != null){
+		 //console.readPassword("Enter your password: ");
+		//  password=sc.next();
+		//}
 		System.out.println("Enter your password: ");
 		password=sc.next();
 		

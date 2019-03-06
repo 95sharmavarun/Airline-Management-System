@@ -150,7 +150,7 @@ List<Flight>Cancelflightsearch=new ArrayList<>();
 		
 		if(flightsearch.size()>0) {
 			c++;
-			System.out.println("your flights are: ");
+			/*System.out.println("your flights are: ");
 			System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 			System.out.println("Flight id\t| Flight Name |"+" "+"\t| Source |"+"\t "+"| Destination |"+"\t"+"| Price |"+"\t "+"| Arrival Time |"+"\t "+"| Destination Time |"+"\t "+"| Seats Left |");
 		for(Flight obj:flightsearch)
@@ -158,7 +158,30 @@ List<Flight>Cancelflightsearch=new ArrayList<>();
 			System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 			System.out.println(obj);
 			System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-		}
+		}*/
+			
+			
+			
+			
+			
+			
+			System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
+			System.out.format("%5s %20s %10s %14s %13s %16s %20s %14s ","Flight id","Flight Name","Source","Destination","Price","Arrival Time","Destination Time","Seats Left");
+			System.out.println("");
+			System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
+			for(Flight obj:flightsearch)
+			{
+				System.out.format("%5d %23s %10s %14s %14.2f %13s %16s %14d ",obj.fid,obj.fname,obj.source,obj.destination,obj.price,obj.arrivaltime,obj.destinationtime,obj.seatsleft);
+				System.out.println("");
+				System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
+			}
+			
+			
+			
+			
+			
+			
+			
 		}
 		else {
 			System.out.println("sorry there is no flight from your source to your destination...!!");
@@ -247,9 +270,11 @@ List<Flight>Cancelflightsearch=new ArrayList<>();
 		{
 			conn.connect();
 			seats=conn.fetch(email);
+			System.out.println("booked seats are: "+seats);
 			Cancelflightsearch=conn.showAllFlights();
 //			id=conn.idfetch();
 			//conn.updateFlight(fid,totalseats);
+			
 			if(seats>0) {
 				
 				System.out.println("enter your flight name: ");
@@ -273,7 +298,7 @@ List<Flight>Cancelflightsearch=new ArrayList<>();
 				else {
 
 					conn.updateFlight(fid,totalseats);
-				conn.cancellation(email);	
+					conn.cancellation(email);	
 				}
 				
 				
@@ -300,6 +325,7 @@ List<Flight>Cancelflightsearch=new ArrayList<>();
 	
 	
 	
-	
+		
+		
 
 }

@@ -15,13 +15,16 @@ public class CreateConnect {
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rs;
+	
 	ArrayList<LoginDao>retv=new ArrayList<>();
 	ArrayList<Flight>flightsearch=new ArrayList<>();
 	ArrayList<Flight>CancelFlightsearch=new ArrayList<>();
+	ArrayList<Flight>allFlightSearch=new ArrayList<>();
+	
 	public void connect()
 	{
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			 conn=DriverManager.getConnection("jdbc:mysql://localhost:3307/airlines","root","varun");
 		}
 		catch(Exception e)
@@ -50,6 +53,45 @@ public class CreateConnect {
 			System.out.println("new User not added successfully");
 		}
 	}
+	
+	
+	
+	public void addNewAdmin(RegisterDao newAdmin) throws SQLException
+	{
+		pstmt=conn.prepareStatement("insert into login(name,email,phone,role,password,address) values (?,?,?,?,?,?)");
+		pstmt.setString(1,newAdmin.getUserName());
+		pstmt.setString(2, newAdmin.getEmail());
+		pstmt.setString(3,newAdmin.getUserPhone());
+		pstmt.setString(4, newAdmin.getRole());
+		pstmt.setString(5, newAdmin.getPassword());
+		pstmt.setString(6, newAdmin.getUserAddress());
+		int i=pstmt.executeUpdate();
+		if(i>0)
+		{
+			System.out.println("new Admin added successfully");
+		}
+		else {
+			System.out.println("new Admin not added successfully");
+		}
+	}
+	
+	
+	
+	public void deleteAdmin(String AdminEmailid) throws SQLException
+	{
+		pstmt=conn.prepareStatement("delete from login where email= ?");
+		pstmt.setString(1, AdminEmailid);
+		int i=pstmt.executeUpdate();
+		if(i>0)
+		{
+			System.out.println("new Admin deleted successfully");
+		}
+		else {
+			System.out.println("new Admin not deleted successfully");
+		}
+	}
+	
+	
 	
 	
 	
@@ -90,6 +132,34 @@ public class CreateConnect {
 	
 		
 	}
+	
+	
+	
+	
+	
+	public List<Flight> viewAllFlights() throws SQLException
+	{
+		
+
+		allFlightSearch.clear();
+		 pstmt=conn.prepareStatement("select fid,fname,source,destination,price,arrivaltime,destinationtime,seatsleft from domesticflight");
+		 rs=pstmt.executeQuery();
+			while(rs.next())
+			{
+				
+				allFlightSearch.add(new Flight(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getDouble(5),rs.getString(6),rs.getString(7),rs.getInt(8)));
+			}
+			return allFlightSearch;
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 public void deleteFlight(int flightid) throws SQLException
 {
@@ -155,7 +225,7 @@ public void updateFlight(int flightid,int totalseats) throws SQLException
 	int i=pstmt.executeUpdate();
 	if(i>0)
 	{
-		System.out.println(" flight updated successfully");
+		//System.out.println(" flight updated successfully");
 	}
 	else {
 		System.out.println(" flight not updated successfully");
